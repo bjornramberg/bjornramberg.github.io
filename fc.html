@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flashcards - Evolution & Organsystem</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #f5f5f5 0%, #e8e8e8 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            color: #2c3e50;
+            font-size: 28px;
+        }
+
+        .controls {
+            margin-bottom: 1.5rem;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 1rem;
+        }
+
+        button {
+            flex: 1;
+            padding: 10px 16px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background: white;
+            color: #333;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        button:hover:not(:disabled) {
+            background: #f0f0f0;
+            border-color: #999;
+        }
+
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .category-btn.active {
+            background: #0066cc;
+            color: white;
+            border-color: #0066cc;
+        }
+
+        .progress {
+            text-align: center;
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 1rem;
+        }
+
+        .card {
+            aspect-ratio: 3 / 2;
+            background: linear-gradient(135deg, #f9f9f9 0%, #ffffff 100%);
+            border: 1px solid #e0e0e0;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            user-select: none;
+            min-height: 240px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .card:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border-color: #0066cc;
+        }
+
+        .card-content {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .card-label {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #999;
+            font-weight: 600;
+        }
+
+        .card-text {
+            font-size: 18px;
+            line-height: 1.6;
+            color: #2c3e50;
+        }
+
+        .navigation {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 1.5rem;
+        }
+
+        .nav-btn {
+            flex: 1;
+        }
+
+        .flip-btn {
+            flex: 2;
+            background: #f0f0f0;
+        }
+
+        .flip-btn:hover:not(:disabled) {
+            background: #e0e0e0;
+        }
+
+        .info-box {
+            background: #f5f9ff;
+            border-left: 4px solid #0066cc;
+            padding: 1rem;
+            border-radius: 8px;
+            font-size: 13px;
+            color: #555;
+            line-height: 1.6;
+        }
+
+        .info-box strong {
+            display: block;
+            color: #0066cc;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .info-box div {
+            margin-bottom: 4px;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 1.5rem;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+
+            .card {
+                min-height: 200px;
+                padding: 1.5rem;
+            }
+
+            .card-text {
+                font-size: 16px;
+            }
+
+            button {
+                font-size: 13px;
+                padding: 8px 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📚 Flashcards Studium</h1>
+
+        <div class="controls">
+            <div class="button-group">
+                <button id="btn-evolution" class="category-btn active">Evolution</button>
+                <button id="btn-organ" class="category-btn">Organsystem</button>
+            </div>
+            <div class="progress">
+                Kort <span id="current">1</span> av <span id="total">30</span>
+            </div>
+        </div>
+
+        <div id="card" class="card">
+            <div class="card-content">
+                <div class="card-label" id="card-label">Fråga</div>
+                <div class="card-text" id="card-content">Klicka för att börja</div>
+            </div>
+        </div>
+
+        <div class="navigation">
+            <button id="btn-prev" class="nav-btn">← Föregående</button>
+            <button id="btn-flip" class="flip-btn">Vänd kort</button>
+            <button id="btn-next" class="nav-btn">Nästa →</button>
+        </div>
+
+        <div class="info-box">
+            <strong>💡 Tips:</strong>
+            <div>• Klicka på kortet för att vända mellan fråga och svar</div>
+            <div>• Använd pilknapparna för att navigera mellan kort</div>
+            <div>• Välj Evolution eller Organsystem för att byta område</div>
+        </div>
+    </div>
+
+    <script>
+        const flashcards = {
+            evolution: [
+                { q: "Vad har Charles Darwin betytt för evolutionshistoria?", a: "Formulerade teorin om evolution genom naturligt urval och gav en vetenskaplig förklaring till hur arter förändras över tid." },
+                { q: "Vad är ett fossil och hur bildas fossiler?", a: "Avtryck eller lämningar av organismer i sedimentära bergarter. Bildas när organismen täcks av sediment, utsätts för tryck under lång tid och hårda delar förstenas." },
+                { q: "Hur kan fossil hjälpa oss att förstå evolution?", a: "Fossil visar vilka organismer som funnits och hur de förändrats över tid. Genom lagerföljd och jämförelser kan man se övergångsformer." },
+                { q: "Varför kan man hitta fossil av arter på breddgrader där arten normalt inte skulle kunna överleva?", a: "Klimatet kan ha varit annorlunda när organismen levde, och kontinenter har flyttat sig (plattektonik). Miljöer och havsnivåer kan också ha förändrats." },
+                { q: "Vilka effekter hade bildningen och uppbrytandet av Pangea på evolutionen?", a: "När Pangea bildades och bröts upp förändrades klimat och livsmiljöer. Isolering mellan populationer ökade när kontinenter separerades, vilket gynnade artbildning." },
+                { q: "Beskriv varför Australien har många mycket speciella endemiska arter.", a: "Lång geografisk isolering gav evolution utan genetiskt utbyte med andra kontinenter, vilket ledde till många endemiska arter." },
+                { q: "Beskriv fyra olika likheter som tyder på gemensamt evolutionärt ursprung.", a: "Likheter i DNA/biokemi, homologa organ (kroppsbyggnad), likheter i fosterutveckling, biogeografi (arters utbredning)." },
+                { q: "Vilka lika delar i fostret visar gemensamt evolutionärt ursprung?", a: "Till exempel svansanlag, gälbågar och ryggsträng som är förstadie till ryggrad." },
+                { q: "Hur använder man genetiken för att tyda släktskap mellan organismer?", a: "Genom jämförelse av DNA-sekvenser/gener (sekvensering). Högre likhet tyder på närmare släktskap." },
+                { q: "Om fladdermusens vingar och människans arm är homologa - har jag rätt eller fel? Motivera.", a: "Ja, du har rätt. De är homologa (samma evolutionära ursprung) trots olika funktion." },
+                { q: "Vad är homologi mellan gälbågar och hörselben?", a: "Homologa strukturer - samma evolutionära ursprung trots olika funktion." },
+                { q: "Vilka två skäl finns för utveckling av arter som lever i luften?", a: "Ny nisch: mer föda/spridning och skydd från markrovdjur. Dessutom mindre konkurrens i början gav selektionsfördel för flygförmåga." },
+                { q: "Vad betyder evolution?", a: "Förändring i allelfrekvenser i en population över tid." },
+                { q: "Vilka faktorer skapar evolution (vilka processer leder till förändringar i allelfrekvenser)?", a: "Mutationer, naturligt urval, genetisk drift, genflöde (migration), och människans artificiella selektion." },
+                { q: "Vad innebär naturligt urval?", a: "Individer med egenskaper som ger högre överlevnad och reproduktion i en viss miljö får fler avkommor -> deras alleler ökar i populationen." },
+                { q: "Vad är skillnaden på stabiliserande, riktat och splittrande urval? Ge exempel.", a: "Stabiliserande: medelvärdet gynnas (t.ex. födelsevikt). Riktat: en ytterlighet gynnas (t.ex. antibiotikaresistens). Splittrande: båda ytterligheter gynnas (t.ex. olika näbbstorlekar)." },
+                { q: "Vad krävs för att splittrande urval ska leda till artbildning?", a: "Kräver också minskat genflöde/reproduktiv isolering, t.ex. mekaniska barriärer i anatomi, geografisk isolering eller beteendebarriärer." },
+                { q: "Beskriv samevolutionen mellan blommor och bin.", a: "Bin får föda (nektar/pollen) och pollinerar samtidigt blommor. Blommor och bin kan utveckla matchande färger, former och beteenden." },
+                { q: "Varför skulle en utrotning av bin vara en katastrof?", a: "Många växter skulle få sämre pollinering -> färre frön/frukter -> påverkar ekosystem och livsmedelsproduktion kraftigt." },
+                { q: "Vad innebär genetisk drift?", a: "Slumpmässiga förändringar i allelfrekvenser (särskilt i små populationer), inte samma sak som naturligt urval." },
+                { q: "Ge exempel på handikapp skapade av sexuell selektion och analysera varför de väljs ändå.", a: "Ex. påfågelns stora stjärt: ökar risk/energikostnad men ger parningsframgång. Kan fungera som signal för 'bra gener'." },
+                { q: "Är sexuellt urval naturligt urval?", a: "Sexuell selektion är en särskild form av selektion kopplad till parningsframgång, inte samma sak som naturligt urval om överlevnad." },
+                { q: "Kan människan göra eget urval som påverkar djurens/växters egenskaper? Ge exempel.", a: "Ja, genom avel och odling: vi väljer individer med önskade egenskaper (mjölkkor, hundraser, grödor) -> artificiell selektion." },
+                { q: "Vad är definitionen av en art enligt den biologiska artdefinitionen?", a: "Individer som kan få fertil avkomma med varandra." },
+                { q: "Ange på vilket sätt parningsorgan kan vara en artbarriär.", a: "Mekanisk isolering: parningsorganen passar inte mellan arter." },
+                { q: "Ange på vilket sätt beteende kan vara en artbarriär.", a: "Olika sång/ritualer/tider gör att parning inte sker mellan arter." },
+                { q: "Ange på vilket sätt geografisk isolering gynnar artbildning.", a: "Fysisk barriär stoppar genflöde -> populationer utvecklas olika -> kan leda till reproduktiv isolering och artbildning." },
+                { q: "Berätta översiktligt om människans utveckling från förtidmänniskor till nutid.", a: "Cirka 7 miljoner år: Australopithecus -> Homo habilis -> Homo erectus -> Homo neanderthalensis -> Homo sapiens." },
+                { q: "Var placeras människan i primaternas stamträd och vilka är våra närmaste släktingar?", a: "Människan är en primat; våra närmaste nu levande släktingar är schimpanser och bonobo (därefter gorilla)." },
+                { q: "Vilka är de viktiga människospecierna i utvecklingslinjen?", a: "Homo sapiens, Homo neanderthalensis, Homo erectus, Homo habilis, Australopithecus (från yngst till äldst)." }
+            ],
+            organ: [
+                { q: "Vilken roll spelar munhålan och saliv i matspjälkningen?", a: "Munhålan mekaniskt bryter ned maten. Saliv innehåller enzymet amylas som börjar brytas ned kolhydrater." },
+                { q: "Hur bidrar magsäcken till matspjälkningen och vilka ämnen produceras här?", a: "Magsäcken producerar saltsyra och enzymet pepsin som bryter ned proteiner. Slemhinna skyddar mot frätande säure." },
+                { q: "Vad har bukspottkörteln (pankreas) för funktion i matspjälkningen?", a: "Producerar enzymer (amylas, lipas, trypsin) som bryter ned kolhydrater, fetter och proteiner. Också buffertsalter." },
+                { q: "Vilka är tunntarmens huvudsakliga uppgifter i matspjälkningsprocessen?", a: "Fortsätter nedbrytning via enzymer och absorpsion av näringsämnen genom villi och mikrovilli." },
+                { q: "Vilka enzymer bryter ner proteiner och var aktiveras de?", a: "Pepsin i magsäcken, trypsin från pankreas (aktiveras i tunntarmen). Carboxypeptidasärer slutför uppbrottet." },
+                { q: "Vad gör gallan och hur påverkar den fettspjälkningen?", a: "Gallan emulgerar fetter (delar upp dem i mindre droplar) vilket ökar ytan för lipasenzym att verka på." },
+                { q: "Vilken funktion har tjocktarmen i matspjälkningssystemet?", a: "Absorberar vatten och mineraler. Bakterier producerar vitaminer (K, B12). Formar feces." },
+                { q: "Vad gör levern i relation till matspjälkningen?", a: "Producerar galla som hjälper fettspjälkningen. Lagrar näringsämnen. Omvandlar näringsämnen." },
+                { q: "Vilka typer av näringsämnen bryts ner av amylas, lipas, trypsin och pepsin?", a: "Amylas: kolhydrater. Lipas: fetter. Trypsin och pepsin: proteiner." },
+                { q: "Hur skyddar magsäckens slemhinna mot frätande saltsyra?", a: "Slemhinna producerar mucinslag och buffertsalter som neutraliserar och skyddar väggarna." },
+                { q: "Vad är villi och mikrovilli, och vilken funktion har de i tunntarmen?", a: "Fingerliknande utväxter som ökar absorptionsytan dramatiskt. Villi är större, mikrovilli sitter på villiceller. Ökar upp till 300x ytan." },
+                { q: "Vilken roll spelar pepsin i proteinnedbrytningen och hur aktiveras det?", a: "Pepsin bryter ned proteiner. Aktiveras av saltsyra från pepsinogen. Är endast aktivt i sur miljö." },
+                { q: "Vad är skillnaden mellan mekanisk och kemisk nedbrytning av föda?", a: "Mekanisk: tugga, magsäckens muskelkontraktioner. Kemisk: enzymer bryter molekylbindningar." },
+                { q: "Vilken betydelse har bakterierna i tjocktarmen för matspjälkning?", a: "Producerar vitamin K och B12. Fermenter olöst fiber. Bidrar till tarmfloran." },
+                { q: "Varför behöver vi äta kolhydrater, proteiner och fetter?", a: "Kolhydrater: energi. Proteiner: celluppbyggnad och enzym. Fetter: energi, isolering, vitaminabsorption." },
+                { q: "Vad menas med monosackarider?", a: "Enkla socker med en sockermolekyl, t.ex. glukos, fruktös, galaktos." },
+                { q: "Hur är disackarider uppbyggda? Ge ett exempel.", a: "Två monosackaridmolekyler sammanbundna. Ex. sackaros (socker), laktös (mjölksocker), maltös." },
+                { q: "Hur är polysackarider uppbyggda? Ge två exempel.", a: "Många monosackaridmolekyler sammanbundna. Ex. stärkelse (växter), glykogen (djur), cellulosa (växtfiber)." },
+                { q: "Vad menas med 'snabba' respektive 'långsamma' kolhydrater?", a: "Snabba: enkla socker, höjer blodsockret snabbt (t.ex. socker, vitt bröd). Långsamma: komplexa kolhydrater, höjer gradvis (t.ex. grovt bröd, spannmål)." },
+                { q: "Hur kan olika kostsammansättning av kolhydrater påverka hälsan?", a: "För många snabba kolhydrater: blodsockertopp, insulinutsöndring, risk för typ 2-diabetes. Långsamma: stabila energinivåer, bättre satiation." },
+                { q: "Hur reglerar insulin blodsockret så att nivån hålls stabil?", a: "Insulin ökar glukosupptaget i celler (muskel, fett, lever), främjar lagring som glykogen/fett. Minskar blodsockret." },
+                { q: "Vad menas med kostfibrer och varför är fiberrik kost bra?", a: "Olöst cellulosa från växter. Ökar satiation, reglerar blodsocker, minskar kolesterol, främjar tarmhälsa. T.ex. frukt, grönsaker, grovt bröd." },
+                { q: "Vad är ett protein uppbyggt av och hur många aminosyror räknas som essentiella?", a: "Proteins är uppbyggda av aminosyror. 9 aminosyror är essentiella (måste ätas då kroppen inte kan tillverka dem)." },
+                { q: "Vad betyder 'essentiella aminosyror'?", a: "Aminosyror som kroppen inte kan tillverka själv och därför måste få från maten." },
+                { q: "Vad menas med mättade respektive omättade fetter?", a: "Mättade: ingen dubbelbindning, fast vid rumstemperatur (smör, nötfett). Omättade: dubbelbindning, flytande (olja). Omättade är generellt bättre för hälsan." },
+                { q: "Hur kan flygande och energikrävande insekter klara sig med öppet blodomlopp?", a: "Insekter transporterar inte syre med blodet. Syre går via trakéer direkt till celler. Blodet transporterar näring, avfall och hormoner." },
+                { q: "Beskriv skillnaden mellan enkelt blodomlopp (fisk) och dubbelt (människa).", a: "Enkelt: blodet passerar hjärtat en gång per varv. Dubbelt: blodet passerar hjärtat två gånger (lilla + stora kretsloppet)." },
+                { q: "Vad har blodet för uppgifter och hur mycket blod har en människa?", a: "Transport av syre, CO2, näringsämnen, avfall och hormoner; immunförsvar; värmereglering. Ca 5 liter blod hos vuxen." },
+                { q: "Vilka typer av kärl transporteras blodet i?", a: "Artärer, vener och kapillärer." },
+                { q: "Hur skiljer sig artärer, vener och kapillärer åt?", a: "Artärer: tjocka elastiska väggar, högre tryck, från hjärtat. Vener: tunnare väggar, klaffar, till hjärtat. Kapillärer: mycket tunna, gasutbyte." },
+                { q: "Varför behövs ett väl fungerande hjärta?", a: "För att hålla cirkulationen igång så celler får syre/näring och blir av med CO2/avfall." },
+                { q: "Vilka delar består människans hjärta av?", a: "Höger/vänster förmak och kammare, klaffar (segel- och fickklaffar), aorta, lungartär och lungvener, hålvener, kranskärl." },
+                { q: "Hur skickas blodet runt i hjärtat?", a: "Syrefattigt blod via hålvener -> höger förmak -> höger kammare -> lungartär -> lungor. Syrerikt blod via lungvener -> vänster förmak -> vänster kammare -> aorta -> kroppen." },
+                { q: "Vad menas med dubbla kretslopp?", a: "Två kretslopp: lilla (hjärta-lungor-hjärta) och stora (hjärta-kropp-hjärta)." },
+                { q: "Beskriv en blodkropps resa genom det dubbla kretsloppet.", a: "I lilla kretsloppet: tar upp syre i lungornas alveoler via diffusion och lämnar CO2. I stora kretsloppet: lämnar syre till vävnader och tar upp CO2 via diffusion." },
+                { q: "Vilken funktion har hjärtats kranskärl?", a: "Förser hjärtmuskeln själv med syrerikt blod och näring." },
+                { q: "Vad är en puls?", a: "Antal hjärtslag per minut (känns i artärer när hjärtat pumpar ut blod)." },
+                { q: "Vad menas med hjärtattack (hjärtinfarkt)?", a: "Blodpropp eller förträngning i kranskärl -> syrebrist i hjärtmuskel -> vävnadsskada." },
+                { q: "Vad menas med blodtryck?", a: "Trycket som blodet utövar mot kärlväggen." },
+                { q: "Vad står de två värdena för (t.ex. 120/80)?", a: "Systoliskt tryck (arbetstryck när hjärtat slår) / diastoliskt tryck (vilotryck mellan slag), i mmHg." },
+                { q: "Vad är ett normalt blodtryck?", a: "Ungefär 110-130/70-85, varierar med individ." },
+                { q: "Varför får man högt blodtryck?", a: "T.ex. ärftlighet, ålder, stress, övervikt, lite motion, mycket salt, alkohol, rökning." },
+                { q: "Varför är högt blodtryck dåligt?", a: "Ökar risken för kärlskador, stroke, hjärtinfarkt; hjärtat måste arbeta hårdare." },
+                { q: "Vad händer med mitokondrier och kapillärer vid bra kondition?", a: "Fler mitokondrier och fler kapillärer i muskler -> bättre syretillförsel och energiproduktion. Även mer hemoglobin." },
+                { q: "Vad är slagvolym och vilopuls, och vad händer med dem vid bra kondition?", a: "Slagvolym: blod per slag (ökar). Vilopuls: slag/min i vila (minskar). Vid träning pumpar hjärtat mer per slag, behöver inte slå så ofta." },
+                { q: "Varför andas vi?", a: "För att få in syre till cellandning och bli av med koldioxid som är avfall från cellerna." },
+                { q: "Vad är inre och yttre andning?", a: "Yttre: gasutbyte mellan lungor och blod. Inre: cellernas användning av syre (cellandning) och produktion av CO2." },
+                { q: "Hur andas andra djur än människan?", a: "Fiskar: gälar. Insekter: trakéer. Groddjur: kan även ta upp gaser genom huden." },
+                { q: "Vad gör diafragman och var sitter den?", a: "Är en muskel under lungorna som kontrahererar vid inandning -> ökar lungornas volym -> lågt tryck -> luft strömmar in." },
+                { q: "Vad händer när luften går genom näshålan?", a: "Värms upp, fuktas och filtreras (slem och flimmerhår fångar partiklar)." },
+                { q: "Vad har struplocket för funktion?", a: "Stänger luftstrupen vid sväljning så mat/vätska inte hamnar i luftvägarna." },
+                { q: "Hur har lungorna kontakt med luftstrupen?", a: "Luftstrupe delar sig i två luftrör (bronkier) som förgrenas i till mindre luftrör och slutar i lungblåsor/alveoler." },
+                { q: "Vad händer i lungblåsorna och hur använder man begreppet diffusion?", a: "Syre diffunderar från alveolerluft till blod (lägre O2 i blod). CO2 diffunderar från blod till alveoler och andas ut. Diffusion går alltid från hög till låg koncentration." },
+                { q: "Hur kommer syret från luften till kroppens celler?", a: "Syre binds till hemoglobin i röda blodkroppar, transporteras med blodet. I vävnader diffunderar syre till celler där det används i cellandning." },
+                { q: "Vid hög fysisk aktivitet: vad händer med ventilationen och varför?", a: "Andningsfrekvens och lungvolym ökar -> högre ventilation för att möta ökat O2-behov och ökad CO2-produktion från musklerna." },
+                { q: "Vad är vitalkapacitet?", a: "Den största mängd luft en person kan andas ut efter en maximal inandning. Mäts med en spirometer." }
+            ]
+        };
+
+        let currentCategory = 'evolution';
+        let currentIndex = 0;
+        let isFlipped = false;
+
+        function updateDisplay() {
+            const cards = flashcards[currentCategory];
+            const card = cards[currentIndex];
+            
+            document.getElementById('current').textContent = currentIndex + 1;
+            document.getElementById('total').textContent = cards.length;
+            document.getElementById('card-label').textContent = isFlipped ? 'Svar' : 'Fråga';
+            document.getElementById('card-content').textContent = isFlipped ? card.a : card.q;
+            
+            document.getElementById('btn-prev').disabled = currentIndex === 0;
+            document.getElementById('btn-next').disabled = currentIndex === cards.length - 1;
+        }
+
+        // Event listeners
+        document.getElementById('btn-evolution').addEventListener('click', function() {
+            currentCategory = 'evolution';
+            currentIndex = 0;
+            isFlipped = false;
+            document.getElementById('btn-evolution').classList.add('active');
+            document.getElementById('btn-organ').classList.remove('active');
+            updateDisplay();
+        });
+
+        document.getElementById('btn-organ').addEventListener('click', function() {
+            currentCategory = 'organ';
+            currentIndex = 0;
+            isFlipped = false;
+            document.getElementById('btn-organ').classList.add('active');
+            document.getElementById('btn-evolution').classList.remove('active');
+            updateDisplay();
+        });
+
+        document.getElementById('card').addEventListener('click', function() {
+            isFlipped = !isFlipped;
+            updateDisplay();
+        });
+
+        document.getElementById('btn-flip').addEventListener('click', function() {
+            isFlipped = !isFlipped;
+            updateDisplay();
+        });
+
+        document.getElementById('btn-prev').addEventListener('click', function() {
+            if (currentIndex > 0) {
+                currentIndex--;
+                isFlipped = false;
+                updateDisplay();
+            }
+        });
+
+        document.getElementById('btn-next').addEventListener('click', function() {
+            const cards = flashcards[currentCategory];
+            if (currentIndex < cards.length - 1) {
+                currentIndex++;
+                isFlipped = false;
+                updateDisplay();
+            }
+        });
+
+        // Initialize
+        updateDisplay();
+    </script>
+</body>
+</html>
