@@ -191,7 +191,7 @@
 </head>
 <body>
     <div class="container">
-        <h1>📚 Hannahs Flashcards - Biologi</h1>
+        <h1>📚 Flashcards Studium</h1>
 
         <div class="controls">
             <div class="button-group">
@@ -321,9 +321,20 @@
         let currentCategory = 'evolution';
         let currentIndex = 0;
         let isFlipped = false;
+        let shuffledCards = {};
+
+        // Fisher-Yates shuffle algoritm
+        function shuffleArray(array) {
+            const shuffled = [...array];
+            for (let i = shuffled.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+            }
+            return shuffled;
+        }
 
         function updateDisplay() {
-            const cards = flashcards[currentCategory];
+            const cards = shuffledCards[currentCategory];
             const card = cards[currentIndex];
             
             document.getElementById('current').textContent = currentIndex + 1;
@@ -340,6 +351,7 @@
             currentCategory = 'evolution';
             currentIndex = 0;
             isFlipped = false;
+            shuffledCards['evolution'] = shuffleArray(flashcards['evolution']);
             document.getElementById('btn-evolution').classList.add('active');
             document.getElementById('btn-organ').classList.remove('active');
             updateDisplay();
@@ -349,6 +361,7 @@
             currentCategory = 'organ';
             currentIndex = 0;
             isFlipped = false;
+            shuffledCards['organ'] = shuffleArray(flashcards['organ']);
             document.getElementById('btn-organ').classList.add('active');
             document.getElementById('btn-evolution').classList.remove('active');
             updateDisplay();
@@ -382,6 +395,8 @@
         });
 
         // Initialize
+        shuffledCards['evolution'] = shuffleArray(flashcards['evolution']);
+        shuffledCards['organ'] = shuffleArray(flashcards['organ']);
         updateDisplay();
     </script>
 </body>
