@@ -122,7 +122,7 @@
   .cursor{display:inline-block; width:8px; height:1.05em; background:var(--accent); vertical-align:text-bottom; margin-left:3px; animation:blink 1s steps(1) infinite;}
   @keyframes blink{50%{opacity:0;}}
   @media (prefers-reduced-motion: reduce){ .cursor{animation:none;} }
-  @media (prefers-reduced-motion: reduce){ .card, .card__preview{transition:none;} }
+  @media (prefers-reduced-motion: reduce){ .card, .card__preview, .card__preview img{transition:none;} }
 
   html.js .terminal .prompt-text,
   html.js .terminal .output{visibility:hidden;}
@@ -152,13 +152,20 @@
   }
   .card:hover, .card:focus-visible{border-color:var(--accent-2); transform:translateY(-3px);}
 
-  .card__preview{position:absolute; inset:0; opacity:0; transition:opacity .3s ease; pointer-events:none;}
-  .card__preview img{width:100%; height:100%; object-fit:cover; display:block; filter:brightness(.5) saturate(1.15);}
+  .card__preview{position:absolute; inset:0; opacity:0; transition:opacity .3s ease; pointer-events:none; overflow:hidden;}
+  .card__preview img{
+    width:100%; height:100%; object-fit:cover; display:block;
+    filter:brightness(.62) saturate(1.1);
+    transform:scale(1.16) translate(0,0);
+    transition:transform .35s cubic-bezier(.2,.6,.3,1), filter .3s ease;
+    will-change:transform;
+  }
   .card__preview::after{
     content:""; position:absolute; inset:0;
-    background:linear-gradient(to top, rgba(11,13,14,.96) 0%, rgba(11,13,14,.68) 40%, rgba(11,13,14,.2) 100%);
+    background:linear-gradient(to top, rgba(11,13,14,.92) 0%, rgba(11,13,14,.4) 42%, rgba(11,13,14,.05) 100%);
   }
   .card:hover .card__preview, .card:focus-visible .card__preview{opacity:1;}
+  .card:hover .card__preview img{filter:brightness(.78) saturate(1.15);}
 
   .card__content{position:relative; z-index:1; display:flex; flex-direction:column; gap:10px; flex:1;}
 
@@ -287,7 +294,7 @@
     <h2>ls -la ~/projects</h2>
     <div class="grid">
       <a class="card" href="https://github.com/bjornramberg/biometrk" target="_blank" rel="noopener">
-        <span class="card__preview"><img src="https://opengraph.githubassets.com/1/bjornramberg/biometrk" alt="" loading="lazy" decoding="async"></span>
+        <span class="card__preview"><img src="https://raw.githubusercontent.com/bjornramberg/biometrk/HEAD/preview.png" alt="" loading="lazy" decoding="async" onerror="this.closest('.card__preview').remove()"></span>
         <div class="card__content">
           <div class="card__title">biometrk <span class="arrow">↗</span></div>
           <p class="card__desc">A terminal-first tool for tracking habits and health metrics over time.</p>
@@ -295,7 +302,7 @@
         </div>
       </a>
       <a class="card" href="https://github.com/bjornramberg/zenplayer" target="_blank" rel="noopener">
-        <span class="card__preview"><img src="https://opengraph.githubassets.com/1/bjornramberg/zenplayer" alt="" loading="lazy" decoding="async"></span>
+        <span class="card__preview"><img src="https://raw.githubusercontent.com/bjornramberg/zenplayer/HEAD/preview.png" alt="" loading="lazy" decoding="async" onerror="this.closest('.card__preview').remove()"></span>
         <div class="card__content">
           <div class="card__title">zenplayer <span class="arrow">↗</span></div>
           <p class="card__desc">A terminal YouTube music player with built-in visuals — sound and motion without leaving the shell.</p>
@@ -303,7 +310,7 @@
         </div>
       </a>
       <a class="card" href="https://github.com/bjornramberg/ratbagtui" target="_blank" rel="noopener">
-        <span class="card__preview"><img src="https://opengraph.githubassets.com/1/bjornramberg/ratbagtui" alt="" loading="lazy" decoding="async"></span>
+        <span class="card__preview"><img src="https://raw.githubusercontent.com/bjornramberg/ratbagtui/HEAD/preview.png" alt="" loading="lazy" decoding="async" onerror="this.closest('.card__preview').remove()"></span>
         <div class="card__content">
           <div class="card__title">ratbagtui <span class="arrow">↗</span></div>
           <p class="card__desc">A TUI front-end for configuring gaming mice through ratbag.</p>
@@ -311,7 +318,7 @@
         </div>
       </a>
       <a class="card" href="https://github.com/bjornramberg/betterdisk" target="_blank" rel="noopener">
-        <span class="card__preview"><img src="https://opengraph.githubassets.com/1/bjornramberg/betterdisk" alt="" loading="lazy" decoding="async"></span>
+        <span class="card__preview"><img src="https://raw.githubusercontent.com/bjornramberg/betterdisk/HEAD/preview.png" alt="" loading="lazy" decoding="async" onerror="this.closest('.card__preview').remove()"></span>
         <div class="card__content">
           <div class="card__title">betterdisk <span class="arrow">↗</span></div>
           <p class="card__desc">A fast disk-usage analyzer for Linux, written in Rust.</p>
@@ -319,7 +326,7 @@
         </div>
       </a>
       <a class="card" href="https://github.com/bjornramberg/rom_tools" target="_blank" rel="noopener">
-        <span class="card__preview"><img src="https://opengraph.githubassets.com/1/bjornramberg/rom_tools" alt="" loading="lazy" decoding="async"></span>
+        <span class="card__preview"><img src="https://raw.githubusercontent.com/bjornramberg/rom_tools/HEAD/preview.png" alt="" loading="lazy" decoding="async" onerror="this.closest('.card__preview').remove()"></span>
         <div class="card__content">
           <div class="card__title">rom_tools <span class="arrow">↗</span></div>
           <p class="card__desc">A set of utilities for organizing and managing ROM collections.</p>
@@ -327,7 +334,7 @@
         </div>
       </a>
       <a class="card" href="https://github.com/bjornramberg/awesome-linux-productivity-apps" target="_blank" rel="noopener">
-        <span class="card__preview"><img src="https://opengraph.githubassets.com/1/bjornramberg/awesome-linux-productivity-apps" alt="" loading="lazy" decoding="async"></span>
+        <span class="card__preview"><img src="https://raw.githubusercontent.com/bjornramberg/awesome-linux-productivity-apps/HEAD/preview.png" alt="" loading="lazy" decoding="async" onerror="this.closest('.card__preview').remove()"></span>
         <div class="card__content">
           <div class="card__title">awesome-linux-productivity-apps <span class="arrow">↗</span></div>
           <p class="card__desc">A curated, opinionated list of Linux apps worth your time.</p>
@@ -335,7 +342,7 @@
         </div>
       </a>
       <a class="card" href="https://github.com/bjornramberg/netinspect" target="_blank" rel="noopener">
-        <span class="card__preview"><img src="https://opengraph.githubassets.com/1/bjornramberg/netinspect" alt="" loading="lazy" decoding="async"></span>
+        <span class="card__preview"><img src="https://raw.githubusercontent.com/bjornramberg/netinspect/HEAD/preview.png" alt="" loading="lazy" decoding="async" onerror="this.closest('.card__preview').remove()"></span>
         <div class="card__content">
           <div class="card__title">netinspect <span class="arrow">↗</span></div>
           <p class="card__desc">Watches outbound network traffic broken down by individual process.</p>
@@ -343,7 +350,7 @@
         </div>
       </a>
       <a class="card" href="https://github.com/bjornramberg/fastfinder" target="_blank" rel="noopener">
-        <span class="card__preview"><img src="https://opengraph.githubassets.com/1/bjornramberg/fastfinder" alt="" loading="lazy" decoding="async"></span>
+        <span class="card__preview"><img src="https://raw.githubusercontent.com/bjornramberg/fastfinder/HEAD/preview.png" alt="" loading="lazy" decoding="async" onerror="this.closest('.card__preview').remove()"></span>
         <div class="card__content">
           <div class="card__title">fastfinder <span class="arrow">↗</span></div>
           <p class="card__desc">A very fast file and directory finder for Linux.</p>
@@ -351,7 +358,7 @@
         </div>
       </a>
       <a class="card" href="https://github.com/bjornramberg/pyty" target="_blank" rel="noopener">
-        <span class="card__preview"><img src="https://opengraph.githubassets.com/1/bjornramberg/pyty" alt="" loading="lazy" decoding="async"></span>
+        <span class="card__preview"><img src="https://raw.githubusercontent.com/bjornramberg/pyty/HEAD/preview.png" alt="" loading="lazy" decoding="async" onerror="this.closest('.card__preview').remove()"></span>
         <div class="card__content">
           <div class="card__title">pyty <span class="arrow">↗</span></div>
           <p class="card__desc">A portable, highly configurable terminal timer built for public speaking.</p>
@@ -366,7 +373,7 @@
     <p class="lead" style="margin-bottom:26px;">A handful of themes for <a href="https://github.com/basecamp/omarchy" target="_blank" rel="noopener" style="color:var(--accent-2)">Omarchy</a> — because the default is never quite right.</p>
     <div class="grid grid--themes">
       <a class="card" href="https://github.com/bjornramberg/omarchy-gojira-theme" target="_blank" rel="noopener">
-        <span class="card__preview"><img src="https://opengraph.githubassets.com/1/bjornramberg/omarchy-gojira-theme" alt="" loading="lazy" decoding="async"></span>
+        <span class="card__preview"><img src="https://raw.githubusercontent.com/bjornramberg/omarchy-gojira-theme/HEAD/preview.png" alt="" loading="lazy" decoding="async" onerror="this.closest('.card__preview').remove()"></span>
         <div class="card__content">
           <div class="card__title">Gojira <span class="arrow">↗</span></div>
           <p class="card__desc">A theme for Omarchy, named after Godzilla's Japanese name.</p>
@@ -374,7 +381,7 @@
         </div>
       </a>
       <a class="card" href="https://github.com/bjornramberg/omarchy-brutalism-theme" target="_blank" rel="noopener">
-        <span class="card__preview"><img src="https://opengraph.githubassets.com/1/bjornramberg/omarchy-brutalism-theme" alt="" loading="lazy" decoding="async"></span>
+        <span class="card__preview"><img src="https://raw.githubusercontent.com/bjornramberg/omarchy-brutalism-theme/HEAD/preview.png" alt="" loading="lazy" decoding="async" onerror="this.closest('.card__preview').remove()"></span>
         <div class="card__content">
           <div class="card__title">Brutalism <span class="arrow">↗</span></div>
           <p class="card__desc">A brutalism-inspired theme for Omarchy — stark and structural.</p>
@@ -382,7 +389,7 @@
         </div>
       </a>
       <a class="card" href="https://github.com/bjornramberg/omarchy-kurayami-theme" target="_blank" rel="noopener">
-        <span class="card__preview"><img src="https://opengraph.githubassets.com/1/bjornramberg/omarchy-kurayami-theme" alt="" loading="lazy" decoding="async"></span>
+        <span class="card__preview"><img src="https://raw.githubusercontent.com/bjornramberg/omarchy-kurayami-theme/HEAD/preview.png" alt="" loading="lazy" decoding="async" onerror="this.closest('.card__preview').remove()"></span>
         <div class="card__content">
           <div class="card__title">Kurayami <span class="arrow">↗</span></div>
           <p class="card__desc">A dark theme for Omarchy — kurayami is Japanese for "darkness."</p>
@@ -390,7 +397,7 @@
         </div>
       </a>
       <a class="card" href="https://github.com/bjornramberg/omarchy-bad-hand-theme" target="_blank" rel="noopener">
-        <span class="card__preview"><img src="https://opengraph.githubassets.com/1/bjornramberg/omarchy-bad-hand-theme" alt="" loading="lazy" decoding="async"></span>
+        <span class="card__preview"><img src="https://raw.githubusercontent.com/bjornramberg/omarchy-bad-hand-theme/HEAD/preview.png" alt="" loading="lazy" decoding="async" onerror="this.closest('.card__preview').remove()"></span>
         <div class="card__content">
           <div class="card__title">Bad Hand <span class="arrow">↗</span></div>
           <p class="card__desc">Another theme for Omarchy, built the same way as the rest.</p>
@@ -465,6 +472,36 @@
     }
 
     run();
+  });
+})();
+
+(function(){
+  document.addEventListener('DOMContentLoaded', function(){
+    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if(reduce) return;
+
+    var maxShift = 16; // px of travel at the card's edge
+    var cards = document.querySelectorAll('.card');
+
+    cards.forEach(function(card){
+      var img = card.querySelector('.card__preview img');
+      if(!img) return;
+
+      card.addEventListener('mousemove', function(e){
+        // image may have removed itself via onerror if preview.png is missing
+        if(!card.contains(img)) return;
+        var rect = card.getBoundingClientRect();
+        var relX = (e.clientX - rect.left) / rect.width;
+        var relY = (e.clientY - rect.top) / rect.height;
+        var offsetX = (relX - 0.5) * 2 * maxShift;
+        var offsetY = (relY - 0.5) * 2 * maxShift;
+        img.style.transform = 'scale(1.16) translate(' + (-offsetX).toFixed(1) + 'px, ' + (-offsetY).toFixed(1) + 'px)';
+      });
+
+      card.addEventListener('mouseleave', function(){
+        img.style.transform = 'scale(1.16) translate(0px, 0px)';
+      });
+    });
   });
 })();
 </script>
