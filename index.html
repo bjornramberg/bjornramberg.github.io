@@ -48,20 +48,47 @@
         </div>
       </div>
       <div class="terminal__body">
-        <div class="line">
-          <span class="prompt"><span class="prompt-text">whoami</span></span>
-          <span class="output output--name">Björn Ramberg</span>
-        </div>
-        <div class="line">
-          <span class="prompt"><span class="prompt-text">cat role.txt</span></span>
-          <span class="output">Infrastructure engineer — 25 years in retail &amp; telecom, split between architecture, leadership, and terminal tools built after hours.</span>
-        </div>
-        <div class="line">
-          <span class="prompt"><span class="prompt-text">cat status.txt</span></span>
-          <span class="output">Currently: tuning dotfiles, shipping small Rust &amp; Go tools, re-theming Omarchy for no good reason.</span>
-        </div>
-        <div class="line line--final">
-          <span class="prompt"><span class="prompt-text"></span><span class="cursor"></span></span>
+        <div class="terminal__fastfetch">
+          <pre class="terminal__art" aria-label="ASCII logo">            ⣀⣀⣀⣀⣀⣤⣤⣄
+           ⣼⣿⣿⣿⣿⣿⣿⣿⣿⣇⡀
+          ⠰⠛⠛⠋⠉⠉⠉⢉⣁⣀⣀⣼⣄⡀
+     ⣀⣀⣤⣾⣿⣿⣶⣶⣶⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⢀⣠⣤⣤⡀
+    ⣼⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷
+    ⢻⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠏
+    ⢨⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡀
+   ⢀⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣧
+   ⣼⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣇
+  ⢰⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⡄
+  ⣾⣿⣿⣿⡿⣿⣿⣿⡿⠟⠉   ⢈⡋   ⠈⠙⢿⣿⣿⣉⡉⠻⣿⣿⡀
+ ⣀⡿⣿⣿⠁⠐⠾⠛⠋   ⢀⣀⣤⣾⣷⣦⣄⡀   ⠉⠛⠛⠁ ⣿⣿⡇
+ ⠋⡤⣿⣿⣦⣀⣀⣀⣀⣠⣴⣾⣿⠁     ⣻⢿⣶⣤⣀⣀⣀⣤⠾⡁⠸⠇
+⠐⠉⣱⣿⣿⣿⠛⠛⠛⠛⡏⢹⠘⠁⣿⣶⣤⣀⣶⣾⠁⠘⣿⣍⠉⠉⠙⢿⠆⡆ ⠑
+⢀⡹⢸⠘⣿⡟⢠⡆ ⣠⣴⡇⠐⣄⠈⠻⠿⡏⠁⣋⣀⡠⢻⡏⢱⣦⠁⢸⣀⢑ ⡀
+⠉⢵⠈⢀⣿ ⢸⡌⢑⠟⠙⣏⡠⢾⠇  ⢀⡴⠬⢿⡇⠸⡀⣾⠏⢀⠄⢸⢮⣀⣦⠄
+ ⡾ ⢻⣿⣧⡀⠹⣿⡀⠛⢃⠃⠜⣿⠃⡀⠺⡇ ⣼⢿⣆⠈⣿⣄⣧⣠⣠⡘⣿⣇
+  ⢠⡟⠋⢋⠗⣇⣿⣿⣸⢠⡌⢸⣿⣄⢰ ⢡ ⠈⣿⡯⢢⠇ ⢹⡿⢻⣷⠻⠆
+  ⠈ ⢠⡋⣼⣥⡟ ⣠⡞⡗⢼⡿⡹⠋⣀⡜⠙⣿⣿⠁⢊⡴⢧⣼⣇⢸⣿
+    ⠈⢧⠋⣍⡇⢸⣿⣧⡇⢸⣴⣇⠰⣉⠙⣄⠈⣿⣄⢺⣴ ⣿⡿⡄⠁
+       ⠈ ⠾⣿⠹⡗⠛⣿⠟⣳⡿ ⡿ ⣷⡼⣿⠋ ⠛
+            ⠈ ⠘⢦⡉⢠⣞⠛⡪⡙⠵⠋
+                ⠉</pre>
+          <div class="terminal__lines">
+            <div class="line">
+              <span class="prompt"><span class="prompt-text">whoami</span></span>
+              <span class="output output--name">Björn Ramberg</span>
+            </div>
+            <div class="line">
+              <span class="prompt"><span class="prompt-text">cat role.txt</span></span>
+              <span class="output">Infrastructure engineer — 25 years in retail &amp; telecom, split between architecture, leadership, and terminal tools built after hours.</span>
+            </div>
+            <div class="line">
+              <span class="prompt"><span class="prompt-text">cat status.txt</span></span>
+              <span class="output">Currently: tuning dotfiles, shipping small Rust &amp; Go tools, re-theming Omarchy for no good reason.</span>
+            </div>
+            <div class="line line--final">
+              <span class="prompt"><span class="prompt-text"></span><span class="cursor"></span></span>
+            </div>
+          </div>
         </div>
       </div>
     </div>
