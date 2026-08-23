@@ -49,11 +49,11 @@
   }
 
   // Renders "Aug 22, 2026" or, when a post has been revised,
-  // "Aug 22, 2026 [bumped: Aug 30, 2026]". Returns safe HTML.
+  // "Aug 22, 2026 (bumped: Aug 30, 2026)". Returns safe HTML.
   function formatDateLine(dateStr, bumpedStr) {
     var out = escapeHtml(formatDate(dateStr));
     if (bumpedStr) {
-      out += ' <span class="bumped">[bumped: ' + escapeHtml(formatDate(bumpedStr)) + ']</span>';
+      out += ' <span class="bumped">(bumped: ' + escapeHtml(formatDate(bumpedStr)) + ')</span>';
     }
     return out;
   }
@@ -121,7 +121,9 @@ document.addEventListener('DOMContentLoaded', function () {
     }));
   }).then(function (posts) {
     if (!posts) return;
-    var valid = posts.filter(Boolean);
+    var valid = posts.filter(Boolean).sort(function (a, b) {
+      return (b.date || '').localeCompare(a.date || '');
+    });
     if (!valid.length) {
       container.innerHTML = '<p class="lead">Nothing published yet — first post coming soon.</p>';
       return;
