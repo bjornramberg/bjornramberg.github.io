@@ -305,11 +305,13 @@
 
     async function run(){
       var lines = terminal.querySelectorAll('.line');
-      for (var idx = 0; idx < lines.length; idx++){
+      for (var idx = 0; idx < lines.length - 1; idx++){
         var line = lines[idx];
+        var prompt = line.querySelector('.prompt');
         var promptEl = line.querySelector('.prompt-text');
         var outputEl = line.querySelector('.output');
-        if(!promptEl) continue;
+        if(prompt) prompt.classList.add('is-active');
+
         var cmd = promptEl.textContent;
         promptEl.textContent = '';
         var outText = outputEl ? outputEl.textContent : '';
@@ -324,7 +326,10 @@
         }
         await wait(420);
       }
+      var finalLine = terminal.querySelector('.line--final');
+      var finalPrompt = finalLine ? finalLine.querySelector('.prompt') : null;
       var finalCursor = terminal.querySelector('.line--final .cursor');
+      if(finalPrompt) finalPrompt.classList.add('is-active');
       if(finalCursor) finalCursor.style.visibility = 'visible';
     }
 

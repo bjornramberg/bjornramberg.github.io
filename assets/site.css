@@ -122,6 +122,8 @@
 
   html.js .terminal .prompt-text,
   html.js .terminal .output{visibility:hidden;}
+  html.js .terminal .prompt::before{visibility:hidden;}
+  html.js .terminal .prompt.is-active::before{visibility:visible;}
   html.js .line--final .cursor{visibility:hidden;}
 
   /* ---- sections ---- */
